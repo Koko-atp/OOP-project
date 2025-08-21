@@ -1,19 +1,26 @@
 package untitleRPG;
-class character {
-    protected int HP = 100;
-    protected int Armor = 50;
-    protected int ATK;
-    protected int SPD;
+abstract class character {
+    private String name;
+    private int HP = 100;
+    private int Armor = 50;
+    private int ATK;
+    private int SPD;
 
+    public int getHP() { return this.HP;}
+    public int getArmor() { return this.Armor;}
+    public int getATK() { return this.ATK;}
+    public int getSPD() { return this.SPD;}
+    public String getName() {return this.name;}
 }
 
 class Player extends character {
-    protected String name;
-    protected Weapon weapon;
+    private Weapon weapon;
+    private Armor armor;
+
 }
 
 class Monster extends character{
-    private String name;
-    private int ATK;
-    private int SPD;
+
+    Monster(String name){
+    }
 }
