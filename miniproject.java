@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class miniproject {
     public static void main(String[] args) {
+        Player P = new Player();
         Scanner kbd = new Scanner(System.in);
 
         System.out.println("=====================================");
@@ -11,7 +12,6 @@ public class miniproject {
 
         String playerName = kbd.nextLine();
 
-        Player P = new Player();
         P.setName(playerName);
 
         System.out.print("Weapon You can choose : ");
