@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 public class miniproject {
     public static void main(String[] args) {
-        Player P = new Player();
         Scanner kbd = new Scanner(System.in);
 
         System.out.println("=====================================");
@@ -12,6 +11,7 @@ public class miniproject {
 
         String playerName = kbd.nextLine();
 
+        Player P = new Player();
         P.setName(playerName);
 
         System.out.print("Weapon You can choose : ");
@@ -25,7 +25,7 @@ public class miniproject {
 
 
         String playerWeapon = kbd.nextLine();
-        P.setWeapon2(playerWeapon);
+        P.equipWeapon(playerWeapon);
 
         System.out.print("Armor You can Armor : ");
         System.out.println(" ");
@@ -35,7 +35,7 @@ public class miniproject {
         System.out.print("Choose Your Armor : ");
         System.out.println(" ");
         String playerArmor = kbd.nextLine();
-        P.setArmor2(playerArmor);
+        P.equipArmor(playerArmor);
         System.out.println("=====================================");
         P.ShowDetails();
 
@@ -58,6 +58,8 @@ public class miniproject {
             System.out.println("========== Your turn ================");
             System.out.println("What will you do ?");
             System.out.println("1. Attack");
+            System.out.println("2. Block");
+            System.out.println("3. Potion (You Potion Current is : " + Potion + " ) ");
             System.out.println("=====================================");
             System.out.println("Enter your choice (Choose the number): ");
             int choice = input.nextInt();
@@ -65,6 +67,12 @@ public class miniproject {
             switch (choice) {
                 case 1:
                     PlayerAttack(player, M);
+                    break;
+                case 2:
+                    Playerblock(player, M);
+                    break;
+                case 3:
+                    Playerusepotion(player);
                     break;
                 default:
                     System.out.println("Invalid choice. You lose your turn.");
@@ -105,6 +113,46 @@ public class miniproject {
 
         
     }
+    private static void Playerblock(Player player , Monster M){
+        
+            double playerincreasedef = player.getDEF() * 0.5;
+            System.out.println("=====================================");
+            System.out.println(player.getNAME() + " block " + M.getNAME() + "DEF UP " + playerincreasedef);
+
+        
+    }
+    
+    public static int Potion = 3; 
+
+    private static void Playerusepotion(Player player){
+
+        if (Potion == 0 ) {
+            System.out.println("=====================================");
+
+            System.out.println("You Potion Current is : " + Potion);
+            System.out.println("You Can't Use Potion");
+
+            System.out.println("=====================================");
+
+        } 
+        else if (Potion >= 1 ) {
+            player.setHP(player.getHP() + 100);
+            Potion --;
+
+            System.out.println("=====================================");
+
+            System.out.println("You Potion Current is : " + Potion);
+            System.out.println("You HP up " + 100 + " Point");
+
+            System.out.println("=====================================");
+
+        } 
+        else {
+            System.out.println("Error");
+
+        } 
+    }
+
     private static void MonsterAttack(Player player , Monster M){
             int monsterDamage = M.getATK() - player.getDEF();
             if(monsterDamage < 0) monsterDamage = 0;
@@ -117,13 +165,13 @@ public class miniproject {
         
     }
 }
- class Character{
+abstract class Character{
 
-    protected String NAME;
-    protected int HP ;
-    protected int DEF;
-    protected int ATK;
-    protected int SPD;
+    private String  NAME;
+    private int HP = 100;
+    private int DEF = 50;
+    private int ATK = 30;
+    private int SPD = 20;
     
     public String getNAME (){
         return this.NAME;
@@ -157,69 +205,61 @@ public class miniproject {
     public void setSPD(int Spd){
         this.SPD = Spd;
     }
+
+    public void ShowDetails(){
+        System.out.println("Name : " + this.NAME);
+        System.out.println("HP : " + this.HP);
+        System.out.println("DEF : " + this.DEF);
+        System.out.println("ATK : " + this.ATK);
+        System.out.println("SPD : " + this.SPD);    
+    }
+
 }
 
 class Player extends Character{
 
-    protected String Weapon;
-    protected String Armor;
+    private Weapon Weapon;
+    private Armor Armor;
     
 
-    public Player() {
-        this.HP = 100;
-        this.DEF = 50;
-        this.ATK = 30;
-        this.SPD = 20;
-        
-    }
-    
+    public Player() {        
+    } 
+
+    public int getHP() { return super.getHP();}
+    public int getDEF() { return super.getDEF();}
+    public int getATK() { return super.getATK();}
+    public int getSPD() { return super.getSPD();}
+    public String getName() {return super.getNAME();}
+
     public String getWeapon(){
-        return this.Weapon;
-    }
-
-    public void setWeapon(String Weapon){
-        this.Weapon = Weapon;
-    }
-    
+        return this.Weapon.getName(); }
     public String getArmor(){
-        return this.Armor;
-    }
-
-    public void setArmor(String Armor){
-        this.Armor = Armor;
-    }
-
+        return this.Armor.getName(); }
     
-    public void setWeapon2(String Choose_Weapon){
+    private void setArmor(String name , int DEF){
+        Armor na = new Armor(name , DEF);
+        this.Armor = na;
+        super.setDEF(getDEF() + na.getDEF());
+    } 
+
+    private void setWeapon(String name , int Atk ,int spd){
+        Weapon nw = new Weapon(name , Atk , spd);
+        this.Weapon = nw;
+        super.setATK(getATK() + nw.getATK());
+        super.setSPD(getSPD() + nw.getSpeed());
+    } 
         
-        this.Weapon = Choose_Weapon; 
-
-        if (Weapon.equalsIgnoreCase("Sword")) {
-            
-            this.ATK += 100;
-        }
-        else if (Weapon.equalsIgnoreCase("1")) {
-
-            this.Weapon = "Sword";
-            this.ATK += 100;
+    
+    public void equipWeapon(String Choose_Weapon){
+         
+        if (Choose_Weapon.equalsIgnoreCase("Sword") || Choose_Weapon.equalsIgnoreCase("1")) {
+            setWeapon("Sword", 100, 50);
         } 
-        else if (Weapon.equalsIgnoreCase("Axe")) {
-            
-            this.ATK += 150;
+        else if (Choose_Weapon.equalsIgnoreCase("Axe") || Choose_Weapon.equalsIgnoreCase("2")) {
+            setWeapon("Axe", 150, 25);
         }
-        else if (Weapon.equalsIgnoreCase("2")) {
-
-            this.Weapon = "Axe";
-            this.ATK += 150;
-        }
-        else if (Weapon.equalsIgnoreCase("Knife")) {
-
-            this.Weapon = "Knife";
-            this.ATK += 50;
-        }
-        else if (Weapon.equalsIgnoreCase("3")) {
-            
-            this.ATK += 50;
+        else if (Choose_Weapon.equalsIgnoreCase("Dagger") || Choose_Weapon.equalsIgnoreCase("3")) {
+            setWeapon("Dagger", 50, 75);
         }
         else{
             System.out.println("=====================================");
@@ -231,36 +271,17 @@ class Player extends Character{
         
     }
 
-    public void setArmor2 (String Choose_Armor){
-        
-        this.Armor = Choose_Armor;
-        
-        if (Armor.equalsIgnoreCase("Low")) {
-
-            this.DEF += 50;
+    public void equipArmor (String Choose_Armor){
+        if (Choose_Armor.equalsIgnoreCase("Low") || Choose_Armor.equalsIgnoreCase("1")) {
+            this.setArmor("Low", 50);
         }
-        else if (Armor.equalsIgnoreCase("1")) {
 
-            this.Armor = "Low";
-            this.DEF += 100;
+        else if (Choose_Armor.equalsIgnoreCase("Mid") || Choose_Armor.equalsIgnoreCase("2")) {
+            this.setArmor("Mid", 100);
         }
-        else if (Armor.equalsIgnoreCase("Mid")) {
 
-            this.DEF += 100;
-        }
-        else if (Armor.equalsIgnoreCase("2")) {
-
-            this.Armor = "Mid";
-            this.DEF += 100;
-        }
-        else if (Armor.equalsIgnoreCase("High")) {
-
-            this.DEF += 150;
-        }
-        else if (Armor.equalsIgnoreCase("3")) {
-
-            this.Armor = "High";
-            this.DEF += 150;
+        else if (Choose_Armor.equalsIgnoreCase("High") || Choose_Armor.equalsIgnoreCase("3")) {
+            this.setArmor("High", 150);
         }
         else{
             System.out.println("=====================================");
@@ -274,36 +295,58 @@ class Player extends Character{
 
     public void ShowDetails(){
         System.out.println("========== PLAYER INFORMATION =======");
-        System.out.println("Name : " + this.NAME);
-        System.out.println("HP : " + this.HP);
-        System.out.println("DEF : " + this.DEF);
-        System.out.println("ATK : " + this.ATK);
-        System.out.println("SPD : " + this.SPD);    
-        System.out.println("Weapon : " + this.Weapon);
-        System.out.println("Armor : " +this.Armor);
+        super.ShowDetails();
+        System.out.println("Weapon : " + getWeapon());
+        System.out.println("Armor : " +getArmor());
         System.out.println("=====================================");
 
 
     }
 }
+
+class Weapon{
+    private String name;
+    private int ATK;
+    private int speed;
+
+    Weapon(String name , int atk , int speed){
+        this.name = name;
+        this.ATK = atk;
+        this.speed = speed;
+    }
+    public int getATK(){return this.ATK;}
+    public int getSpeed(){return this.speed;}
+    public String getName(){return this.name;}
+}
+
+class Armor{
+    private String name; 
+    private int DEF;
+
+    Armor(String name , int def){
+        this.name = name ;
+        this.DEF = def;
+    }
+    public int getDEF(){return this.DEF;}
+    public String getName(){return this.name;}
+}
+
 class Monster extends Character{
     
     public Monster() {
         super.setName("Slime");
-        this.HP = 1000;
-        this.DEF = 50;
-        this.ATK = 30;
-        this.SPD = 20;
-
+        super.setHP(1000);
     }
+
+    public int getHP() { return super.getHP();}
+    public int getDEF() { return super.getDEF();}
+    public int getATK() { return super.getATK();}
+    public int getSPD() { return super.getSPD();}
+    public String getName() {return super.getNAME();}
 
     public void ShowDetails(){
         System.out.println("========= MONSTER INFORMATION =======");
-        System.out.println("Name : " + this.NAME);
-        System.out.println("HP : " + this.HP);
-        System.out.println("DEF : " + this.DEF);
-        System.out.println("ATK : " + this.ATK);
-        System.out.println("SPD : " + this.SPD);    
+          super.ShowDetails();
         System.out.println("=====================================");
 
 
