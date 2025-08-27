@@ -69,7 +69,11 @@ public class miniproject {
                     PlayerAttack(player, M);
                     break;
                 case 2:
-                    Playerblock(player, M);
+                        player.setIsBlocking(true);
+                        System.out.println("=====================================");
+                        System.out.println(player.getNAME() + " is blocking!");
+                        Playerblock(player,M);
+                        
                     break;
                 case 3:
                     Playerusepotion(player);
@@ -116,8 +120,7 @@ public class miniproject {
     private static void Playerblock(Player player , Monster M){
         
             double playerincreasedef = player.getDEF() * 0.5;
-            System.out.println("=====================================");
-            System.out.println(player.getNAME() + " block " + M.getNAME() + "DEF UP " + playerincreasedef);
+            System.out.println(player.getNAME() + " block " + M.getNAME() + " " + player.getName() +" DEF UP " + playerincreasedef);
 
         
     }
@@ -135,7 +138,7 @@ public class miniproject {
             System.out.println("=====================================");
 
         } 
-        else if (Potion >= 1 ) {
+        else {
             player.setHP(player.getHP() + 100);
             Potion --;
 
@@ -147,15 +150,16 @@ public class miniproject {
             System.out.println("=====================================");
 
         } 
-        else {
-            System.out.println("Error");
-
-        } 
     }
 
     private static void MonsterAttack(Player player , Monster M){
             int monsterDamage = M.getATK() - player.getDEF();
+            if (player.getIsBlocking()) { 
+            monsterDamage -= player.getDEF() * 0.5; 
+            player.setIsBlocking(false);
+        }
             if(monsterDamage < 0) monsterDamage = 0;
+            
 
             player.setHP(player.getHP() - monsterDamage);
             System.out.println(M.getNAME() + " attacks " + player.getNAME() + " " + monsterDamage + " Damage");
@@ -170,7 +174,7 @@ abstract class Character{
     private String  NAME;
     private int HP = 100;
     private int DEF = 50;
-    private int ATK = 30;
+    private int ATK = 160;
     private int SPD = 20;
     
     public String getNAME (){
@@ -220,7 +224,7 @@ class Player extends Character{
 
     private Weapon Weapon;
     private Armor Armor;
-    
+    private boolean isBlocking = false;
 
     public Player() {        
     } 
@@ -232,9 +236,15 @@ class Player extends Character{
     public String getName() {return super.getNAME();}
 
     public String getWeapon(){
-        return this.Weapon.getName(); }
+        return this.Weapon.getName(); 
+    }
     public String getArmor(){
-        return this.Armor.getName(); }
+        return this.Armor.getName(); 
+    }
+    public boolean getIsBlocking() {
+        return this.isBlocking;
+    }
+
     
     private void setArmor(String name , int DEF){
         Armor na = new Armor(name , DEF);
@@ -248,7 +258,7 @@ class Player extends Character{
         super.setATK(getATK() + nw.getATK());
         super.setSPD(getSPD() + nw.getSpeed());
     } 
-        
+
     
     public void equipWeapon(String Choose_Weapon){
          
@@ -292,6 +302,10 @@ class Player extends Character{
             
         }
     }
+    public void setIsBlocking(boolean isBlocking) {
+        this.isBlocking = isBlocking;
+    }
+        
 
     public void ShowDetails(){
         System.out.println("========== PLAYER INFORMATION =======");
