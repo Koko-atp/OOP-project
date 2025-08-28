@@ -34,6 +34,8 @@ class Player extends character implements characterFunction{
     private Weapon Weapon;
     private Armor Armor;
     private HealPotionBag PotionBag;
+    private boolean isBlocking = false;
+
     
     Player(String Name) {
         super.setName(Name);
@@ -50,6 +52,7 @@ class Player extends character implements characterFunction{
     public String getWeapon(){ return this.Weapon.getName(); }
     public String getArmor(){ return this.Armor.getName(); }
     public HealPotionBag getBag(){ return this.PotionBag;}
+    public boolean getIsBlocking(){ return this.isBlocking;}
 
     
     private void setArmor(String name , int DEF){
@@ -120,6 +123,10 @@ class Player extends character implements characterFunction{
         }
     }
 
+    public void setIsBlocking(boolean isBlocking) {
+        this.isBlocking = isBlocking;
+    }
+
 
     public void ShowDetails(){
         System.out.println("========== PLAYER INFORMATION =======");
@@ -138,6 +145,16 @@ class Player extends character implements characterFunction{
             System.out.println("=====================================");
             System.out.println(player.getName() + " attacks " + M.getName() + " " + playerDamage + " Damage"); 
     }
+
+    public void Block(Player player , Monster M){
+
+            player.setIsBlocking(true);
+            System.out.println("=====================================");                
+            System.out.println(player.getName() + " is blocking!");
+            double playerincreasedef = player.getDEF() * 0.5;
+            System.out.println(player.getName() + " block " + M.getName() + " " + player.getName() +" DEF UP " + playerincreasedef);
+    }
+
 }
 class Monster extends character implements characterFunction {
     
@@ -167,6 +184,7 @@ class Monster extends character implements characterFunction {
             System.out.println(M.getName() + " attacks " + player.getName() + " " + monsterDamage + " Damage");
             System.out.println("=====================================");
     }
+    
 }
 
 interface characterFunction {
