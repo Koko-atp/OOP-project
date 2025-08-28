@@ -129,7 +129,7 @@ class Player extends character implements characterFunction{
     public void setIsBlocking(boolean isBlocking) {
         this.isBlocking = isBlocking;
         if(isBlocking){
-            super.setDefBonus(super.getDEF() + (super.getDEF() * 0.5));
+            super.setDefBonus(super.getDEF() * 0.5);
         }
         else{ super.setDefBonus(0);}
     }
@@ -193,7 +193,7 @@ class Monster extends character implements characterFunction {
 
     public void setIsBlocking(boolean isBlocking) {
         if(isBlocking){
-            super.setDefBonus(super.getDEF() + (super.getDEF() * 0.5));
+            super.setDefBonus(super.getDEF() * 0.5);
         }
         else{ super.setDefBonus(0);}
     }

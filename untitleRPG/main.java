@@ -64,7 +64,7 @@ public class main {
             System.out.println("=====================================");
             System.out.println("Enter your choice (Choose the number): ");
             int choice = input.nextInt();
-            // M.setIsBlocking(true);
+            M.setIsBlocking(true);
 
             switch (choice) {
                 case 1:
