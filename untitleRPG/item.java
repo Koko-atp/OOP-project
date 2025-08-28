@@ -60,7 +60,7 @@ class HealPotionBag {
     }
 
     
-    public Integer openBag(int dfhp){
+    public Double openBag(double dfhp){
         Scanner Choice = new Scanner(System.in);
         System.out.println("========== " + this.getName() + " ==============");
         System.out.println();
@@ -88,7 +88,7 @@ class HealPotionBag {
          }
     }
 
-    public  int Useitem(int c , int dfhp){
+    public  double Useitem(int c , double dfhp){
             HealPotion slt = this.getBag().get(c-1);
             this.getBag().remove(slt);
             System.out.println();
