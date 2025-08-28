@@ -56,11 +56,11 @@ public class main {
     public static void Fight (Player player,Monster M,Scanner input){
         
         while (player.getHP() > 0 && M.getHP() > 0){
-            System.out.println(" ");
             System.out.println("========== Your turn ================");
             System.out.println("What will you do ?");
             System.out.println("1. Attack");
-            System.out.println("2. Use Potion");
+            System.out.println("2. Block");
+            System.out.println("3. Use Potion");
             System.out.println("=====================================");
             System.out.println("Enter your choice (Choose the number): ");
             int choice = input.nextInt();
@@ -70,6 +70,9 @@ public class main {
                     player.ATK(player, M);
                     break;
                 case 2:
+                    player.Block(player, M);
+                    break;
+                case 3:
                    player.openBag();
                    break;
                 default:
