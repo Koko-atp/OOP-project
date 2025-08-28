@@ -64,6 +64,7 @@ public class main {
             System.out.println("=====================================");
             System.out.println("Enter your choice (Choose the number): ");
             int choice = input.nextInt();
+            M.setIsBlocking(true);
 
             switch (choice) {
                 case 1:
@@ -79,10 +80,16 @@ public class main {
                     System.out.println("Invalid choice. You lose your turn.");
                     return;
             }
+
             if (M.getHP() <= 0) {
                 break;
             }
+            
             M.ATK(player, M);
+
+            if(player.getIsBlocking() == true){
+                player.setIsBlocking(false);
+            }
             
             if (player.getHP() <= 0) {
                 break;
