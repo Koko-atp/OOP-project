@@ -2,8 +2,6 @@ package untitleRPG;
 import java.util.ArrayList ;
 import java.util.Scanner;
 
-import javax.jws.soap.SOAPBinding.Use;
-
 class Weapon {
     private String name;
     private int ATK;
