@@ -144,6 +144,8 @@ class Player extends character implements characterFunction{
             M.setHP(M.getHP() - playerDamage);
             System.out.println("=====================================");
             System.out.println(player.getName() + " attacks " + M.getName() + " " + playerDamage + " Damage"); 
+            super.ShowDetails();
+
     }
 
     public void Block(Player player , Monster M){
@@ -152,7 +154,9 @@ class Player extends character implements characterFunction{
             System.out.println("=====================================");                
             System.out.println(player.getName() + " is blocking!");
             double playerincreasedef = player.getDEF() * 0.5;
+            player.setDEF((int)(player.getDEF() + playerincreasedef));
             System.out.println(player.getName() + " block " + M.getName() + " " + player.getName() +" DEF UP " + playerincreasedef);
+            super.ShowDetails();
     }
 
 }
