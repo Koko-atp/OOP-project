@@ -1,4 +1,5 @@
 package untitleRPG;
+import java.util.ArrayList;
 abstract class character {
     private String name;
     private int HP = 100;
@@ -31,10 +32,11 @@ class Player extends character implements characterFunction{
 
     private Weapon Weapon;
     private Armor Armor;
+    private ArrayList<HealPotion> PotionBag;
     
-
-    public Player() {        
-    } 
+    Player(String Name) {
+        super.setName(Name);
+    }
 
     public int getHP() { return super.getHP();}
     public int getDEF() { return super.getDEF();}
@@ -85,14 +87,17 @@ class Player extends character implements characterFunction{
     public void equipArmor (String Choose_Armor){
         if (Choose_Armor.equalsIgnoreCase("Low") || Choose_Armor.equalsIgnoreCase("1")) {
             this.setArmor("Low", 50);
+            this.addHealPotion("Normal HP Potion", 20, 3);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("Mid") || Choose_Armor.equalsIgnoreCase("2")) {
             this.setArmor("Mid", 100);
+            this.addHealPotion("Normal HP Potion", 20, 2);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("High") || Choose_Armor.equalsIgnoreCase("3")) {
             this.setArmor("High", 150);
+            this.addHealPotion("Normal HP Potion", 20, 1);
         }
         else{
             System.out.println("=====================================");
@@ -103,6 +108,13 @@ class Player extends character implements characterFunction{
             
         }
     }
+
+    public void addHealPotion(String potionName ,int hpst , int QTT){
+        for(int i=0 ; i<QTT ; i++){
+            HealPotion hp = new HealPotion(potionName , hpst);
+            this.PotionBag.add(hp);
+    }}
+    
 
     public void ShowDetails(){
         System.out.println("========== PLAYER INFORMATION =======");
@@ -154,4 +166,5 @@ class Monster extends character implements characterFunction {
 
 interface characterFunction {
     void ATK(Player player , Monster M);
+    void ShowDetails();
 }

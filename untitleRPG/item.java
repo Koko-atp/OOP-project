@@ -1,5 +1,7 @@
 package untitleRPG;
-class Weapon{
+import java.util.ArrayList;
+
+class Weapon {
     private String name;
     private int ATK;
     private int speed;
@@ -13,7 +15,7 @@ class Weapon{
     public String getName(){return this.name;}
 }
 
-class Armor{
+class Armor {
     private String name; 
     private int DEF;
     Armor(String name , int def){
@@ -22,4 +24,15 @@ class Armor{
     }
     public int getDEF(){return this.DEF;}
     public String getName(){return this.name;}
+}
+
+class HealPotion {
+    private String Name;
+    private int heal;
+    HealPotion(String name , int hp){
+        this.Name = name;
+        this.heal = hp;
+    } 
+    public String getName(){ return this.Name; }
+    public int getHeal(){ return this.heal; }
 }

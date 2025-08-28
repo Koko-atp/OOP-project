@@ -11,9 +11,8 @@ public class main {
         // System.out.println(" ");
         
         String playerName = kbd.nextLine();
-        Player P = new Player();
 
-        P.setName(playerName);
+        Player P = new Player(playerName);
         System.out.println(" ");
         System.out.print("# Weapon You can choose # ");
         System.out.println(" ");
