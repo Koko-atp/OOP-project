@@ -60,6 +60,7 @@ public class main {
             System.out.println("========== Your turn ================");
             System.out.println("What will you do ?");
             System.out.println("1. Attack");
+            System.out.println("2. Use Potion");
             System.out.println("=====================================");
             System.out.println("Enter your choice (Choose the number): ");
             int choice = input.nextInt();
@@ -68,6 +69,9 @@ public class main {
                 case 1:
                     player.ATK(player, M);
                     break;
+                case 2:
+                   player.openBag();
+                   break;
                 default:
                     System.out.println("Invalid choice. You lose your turn.");
                     return;

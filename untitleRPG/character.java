@@ -1,5 +1,6 @@
 package untitleRPG;
-import java.util.ArrayList;
+
+
 abstract class character {
     private String name;
     private int HP = 100;
@@ -32,10 +33,12 @@ class Player extends character implements characterFunction{
 
     private Weapon Weapon;
     private Armor Armor;
-    private ArrayList<HealPotion> PotionBag;
+    private HealPotionBag PotionBag;
     
     Player(String Name) {
         super.setName(Name);
+        HealPotionBag newPB = new HealPotionBag(Name);
+        this.PotionBag = newPB;
     }
 
     public int getHP() { return super.getHP();}
@@ -44,10 +47,10 @@ class Player extends character implements characterFunction{
     public int getSPD() { return super.getSPD();}
     public String getName() {return super.getName();}
 
-    public String getWeapon(){
-        return this.Weapon.getName(); }
-    public String getArmor(){
-        return this.Armor.getName(); }
+    public String getWeapon(){ return this.Weapon.getName(); }
+    public String getArmor(){ return this.Armor.getName(); }
+    public HealPotionBag getBag(){ return this.PotionBag;}
+
     
     private void setArmor(String name , int DEF){
         Armor na = new Armor(name , DEF);
@@ -81,23 +84,31 @@ class Player extends character implements characterFunction{
             System.out.println("=====================================");
             System.exit(1);
         }
-        
+
     }
+    public void openBag(){
+          Integer result =  this.getBag().openBag(super.getHP());
+          if(result != null){
+            super.setHP(result);
+            
+          } 
+    }
+        
 
     public void equipArmor (String Choose_Armor){
         if (Choose_Armor.equalsIgnoreCase("Low") || Choose_Armor.equalsIgnoreCase("1")) {
             this.setArmor("Low", 50);
-            this.addHealPotion("Normal HP Potion", 20, 3);
+            this.getBag().addHealPotion("Normal HP Potion", 20, 3);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("Mid") || Choose_Armor.equalsIgnoreCase("2")) {
             this.setArmor("Mid", 100);
-            this.addHealPotion("Normal HP Potion", 20, 2);
+            this.getBag().addHealPotion("Normal HP Potion", 20, 2);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("High") || Choose_Armor.equalsIgnoreCase("3")) {
             this.setArmor("High", 150);
-            this.addHealPotion("Normal HP Potion", 20, 1);
+            this.getBag().addHealPotion("Normal HP Potion", 20, 1);
         }
         else{
             System.out.println("=====================================");
@@ -109,12 +120,6 @@ class Player extends character implements characterFunction{
         }
     }
 
-    public void addHealPotion(String potionName ,int hpst , int QTT){
-        for(int i=0 ; i<QTT ; i++){
-            HealPotion hp = new HealPotion(potionName , hpst);
-            this.PotionBag.add(hp);
-    }}
-    
 
     public void ShowDetails(){
         System.out.println("========== PLAYER INFORMATION =======");
