@@ -1,10 +1,8 @@
 package untitleRPG;
-
-
 abstract class character {
     private String name;
     private double HP = 100;
-    private double DEF = 50;
+    private double DEF = 0;
     private int ATK = 30;
     private int SPD = 20;
     private double DEFBONUS = 0;
@@ -104,17 +102,17 @@ class Player extends character implements characterFunction{
     public void equipArmor (String Choose_Armor){
         if (Choose_Armor.equalsIgnoreCase("Low") || Choose_Armor.equalsIgnoreCase("1")) {
             this.setArmor("Low", 20);
-            this.getBag().addHealPotion("Normal HP Potion", 20, 3);
+            this.getBag().addHealPotion("Tasty HP Potion", 50, 3);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("Mid") || Choose_Armor.equalsIgnoreCase("2")) {
             this.setArmor("Mid", 35);
-            this.getBag().addHealPotion("Normal HP Potion", 20, 2);
+            this.getBag().addHealPotion("Normal HP Potion", 35, 2);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("High") || Choose_Armor.equalsIgnoreCase("3")) {
             this.setArmor("High", 50);
-            this.getBag().addHealPotion("Normal HP Potion", 20, 1);
+            this.getBag().addHealPotion("Cheap HP Potion", 20, 1);
         }
         else{
             System.out.println("=====================================");
@@ -152,15 +150,13 @@ class Player extends character implements characterFunction{
             System.out.println("=====================================");
             System.out.println(player.getName() + " attacks " + M.getName() + " " + playerDamage + " Damage"); 
             super.ShowDetails();
-
-    }
-
-    public void Block(Player player , Monster M){
+        }
+        
+        public void Block(Player player , Monster M){
             player.setIsBlocking(true);
             System.out.println("=====================================");                
             System.out.println(player.getName() + " is blocking!");
             double playerincreasedef = player.getDEF() * 0.5;
-            player.setDEF((int)(player.getDEF() + playerincreasedef));
             System.out.println(player.getName() + " block " + M.getName() + " " + player.getName() +" DEF UP " + playerincreasedef);
             super.ShowDetails();
     }
@@ -168,9 +164,12 @@ class Player extends character implements characterFunction{
 }
 class Monster extends character implements characterFunction {
     
-    public Monster() {
-        super.setName("Slime");
-        super.setHP(1000);
+    public Monster(String name , double hp , double def , int atk , int spd) {
+        super.setName(name);
+        super.setHP(hp);
+        super.setDEF(def);
+        super.setATK(atk);
+        super.setSPD(spd);
     }
 
     public double getHP() { return super.getHP();}

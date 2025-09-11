@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class main {
     public static void main(String[] args){
-                Scanner kbd = new Scanner(System.in);
-        
+        Scanner kbd = new Scanner(System.in);
+        floor_mon FM = new floor_mon();
         System.out.println("=====================================");
         System.out.print("Enter Player Name: ");
         // System.out.println(" ");
@@ -39,8 +39,8 @@ public class main {
         P.equipArmor(playerArmor);
         System.out.println("=====================================");
         P.ShowDetails();
-
-        Monster M = new Monster();
+        
+        Monster M = FM.getMons();
         M.ShowDetails();
         System.out.println(" ");
         System.out.println("=========== BATTLE START ============");
