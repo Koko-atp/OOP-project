@@ -1,11 +1,14 @@
+package test1;
 import java.util.ArrayList ;
 import java.util.Scanner;
 
 import javax.jws.soap.SOAPBinding.Use;
 
+import characterFunction;
+
 public class mainiproject {
     public static void mainiproject(String[] args){
-                Scanner kbd = new Scanner(System.in);
+        Scanner kbd = new Scanner(System.in);
         
         System.out.println("=====================================");
         System.out.print("Enter Player Name: ");
