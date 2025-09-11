@@ -103,17 +103,17 @@ class Player extends character implements characterFunction{
 
     public void equipArmor (String Choose_Armor){
         if (Choose_Armor.equalsIgnoreCase("Low") || Choose_Armor.equalsIgnoreCase("1")) {
-            this.setArmor("Low", 50);
+            this.setArmor("Low", 20);
             this.getBag().addHealPotion("Normal HP Potion", 20, 3);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("Mid") || Choose_Armor.equalsIgnoreCase("2")) {
-            this.setArmor("Mid", 100);
+            this.setArmor("Mid", 35);
             this.getBag().addHealPotion("Normal HP Potion", 20, 2);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("High") || Choose_Armor.equalsIgnoreCase("3")) {
-            this.setArmor("High", 150);
+            this.setArmor("High", 50);
             this.getBag().addHealPotion("Normal HP Potion", 20, 1);
         }
         else{
@@ -151,6 +151,8 @@ class Player extends character implements characterFunction{
             M.setHP(M.getHP() - playerDamage);
             System.out.println("=====================================");
             System.out.println(player.getName() + " attacks " + M.getName() + " " + playerDamage + " Damage"); 
+            super.ShowDetails();
+
     }
 
     public void Block(Player player , Monster M){
@@ -158,7 +160,9 @@ class Player extends character implements characterFunction{
             System.out.println("=====================================");                
             System.out.println(player.getName() + " is blocking!");
             double playerincreasedef = player.getDEF() * 0.5;
+            player.setDEF((int)(player.getDEF() + playerincreasedef));
             System.out.println(player.getName() + " block " + M.getName() + " " + player.getName() +" DEF UP " + playerincreasedef);
+            super.ShowDetails();
     }
 
 }

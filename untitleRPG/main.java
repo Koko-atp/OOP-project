@@ -94,8 +94,10 @@ public class main {
             if (player.getHP() <= 0) {
                 break;
             }
-
+            System.out.println(" ");
             System.out.println("Current HP: " + player.getName() + " (" + player.getHP() + " HP) vs " + M.getName() + " (" + M.getHP() + " HP)");
+                    System.out.println(" ");
+
         }
         System.out.println("=========== BATTLE END ==============");
         
