@@ -164,6 +164,13 @@ class Player extends character implements characterFunction{
 }
 class Monster extends character implements characterFunction {
     
+    public Monster(String name) {
+        super.setName(name);
+        super.setHP(150);
+        super.setDEF(0);
+        super.setATK(100);
+    }
+
     public Monster(String name , double hp , double def , int atk , int spd) {
         super.setName(name);
         super.setHP(hp);
