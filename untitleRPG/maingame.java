@@ -2,8 +2,8 @@ package untitleRPG;
 
 import java.util.Scanner;
 
-public class main {
-    public static void main(String[] args){
+public class maingame {
+    public static void main(String[] args) {
         Scanner kbd = new Scanner(System.in);
         floor_mon FM = new floor_mon();
         System.out.println("=====================================");

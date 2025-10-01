@@ -74,16 +74,16 @@ class HealPotionBag {
         System.out.println();
         System.out.println("=====================================");
         int  c = Choice.nextInt();
-         if((c) <= this.getBag().size() && c > 0 ){
+        if((c) <= this.getBag().size() && c > 0 ){
             return this.Useitem(c , dfhp);
-         }
-         else if (c == 0){
+        }
+        else if (c == 0){
             return null ;
-         }
-         else{
+        }
+        else{
             System.out.println("            ### We Dont Have That Potion ###");
             return null;
-         }
+        }
     }
 
     public  double Useitem(int c , double dfhp){
