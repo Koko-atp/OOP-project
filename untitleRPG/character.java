@@ -1,22 +1,25 @@
 package untitleRPG;
 abstract class character {
     private String name;
-    private int HP = 100;
-    private int DEF = 50;
+    private double HP = 100;
+    private double DEF = 0;
     private int ATK = 30;
     private int SPD = 20;
+    private double DEFBONUS = 0;
 
-    public int getHP() { return this.HP;}
-    public int getDEF() { return this.DEF;}
+    public double getHP() { return this.HP;}
+    public double getDEF() { return this.DEF;}
     public int getATK() { return this.ATK;}
     public int getSPD() { return this.SPD;}
     public String getName() {return this.name;}
+    public double getDefBonus() { return this.DEFBONUS;}
 
     public void setName(String name){ this.name = name;}
-    public void setHP(int HP){ this.HP = HP;}
-    public void setDEF(int DEF){ this.DEF = DEF;}
+    public void setHP(double HP){ this.HP = HP;}
+    public void setDEF(double DEF){ this.DEF = DEF;}
     public void setATK(int Atk){ this.ATK = Atk;}
     public void setSPD(int Spd){ this.SPD = Spd;}
+    public void setDefBonus(double defbonus){ this.DEFBONUS = defbonus;}
 
     public void ShowDetails(){
         System.out.println("Name : " + this.name);
@@ -31,21 +34,27 @@ class Player extends character implements characterFunction{
 
     private Weapon Weapon;
     private Armor Armor;
+    private HealPotionBag PotionBag;
+    private boolean isBlocking = false;
+
     
+    Player(String Name) {
+        super.setName(Name);
+        HealPotionBag newPB = new HealPotionBag(Name);
+        this.PotionBag = newPB;
+    }
 
-    public Player() {        
-    } 
-
-    public int getHP() { return super.getHP();}
-    public int getDEF() { return super.getDEF();}
+    public double getHP() { return super.getHP();}
+    public double getDEF() { return super.getDEF();}
     public int getATK() { return super.getATK();}
     public int getSPD() { return super.getSPD();}
     public String getName() {return super.getName();}
 
-    public String getWeapon(){
-        return this.Weapon.getName(); }
-    public String getArmor(){
-        return this.Armor.getName(); }
+    public String getWeapon(){ return this.Weapon.getName(); }
+    public String getArmor(){ return this.Armor.getName(); }
+    public HealPotionBag getBag(){ return this.PotionBag;}
+    public boolean getIsBlocking(){ return this.isBlocking;}
+
     
     private void setArmor(String name , int DEF){
         Armor na = new Armor(name , DEF);
@@ -79,20 +88,31 @@ class Player extends character implements characterFunction{
             System.out.println("=====================================");
             System.exit(1);
         }
-        
+
     }
+    public void openBag(){
+          Double result =  this.getBag().openBag(super.getHP());
+          if(result != null){
+            super.setHP(result);
+            
+          } 
+    }
+        
 
     public void equipArmor (String Choose_Armor){
         if (Choose_Armor.equalsIgnoreCase("Low") || Choose_Armor.equalsIgnoreCase("1")) {
-            this.setArmor("Low", 50);
+            this.setArmor("Low", 20);
+            this.getBag().addHealPotion("Tasty HP Potion", 50, 3);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("Mid") || Choose_Armor.equalsIgnoreCase("2")) {
-            this.setArmor("Mid", 100);
+            this.setArmor("Mid", 35);
+            this.getBag().addHealPotion("Normal HP Potion", 35, 2);
         }
 
         else if (Choose_Armor.equalsIgnoreCase("High") || Choose_Armor.equalsIgnoreCase("3")) {
-            this.setArmor("High", 150);
+            this.setArmor("High", 50);
+            this.getBag().addHealPotion("Cheap HP Potion", 20, 1);
         }
         else{
             System.out.println("=====================================");
@@ -104,6 +124,15 @@ class Player extends character implements characterFunction{
         }
     }
 
+    public void setIsBlocking(boolean isBlocking) {
+        this.isBlocking = isBlocking;
+        if(isBlocking){
+            super.setDefBonus(super.getDEF() * 0.5);
+        }
+        else{ super.setDefBonus(0);}
+    }
+
+
     public void ShowDetails(){
         System.out.println("========== PLAYER INFORMATION =======");
         super.ShowDetails();
@@ -114,23 +143,37 @@ class Player extends character implements characterFunction{
 
     @Override
     public void ATK(Player player , Monster M){
-            int playerDamage = player.getATK() - M.getDEF();
+            double playerDamage = player.getATK() - (M.getDEF() + M.getDefBonus());
             if(playerDamage < 0) playerDamage = 0;
 
             M.setHP(M.getHP() - playerDamage);
             System.out.println("=====================================");
             System.out.println(player.getName() + " attacks " + M.getName() + " " + playerDamage + " Damage"); 
+            super.ShowDetails();
+        }
+        
+        public void Block(Player player , Monster M){
+            player.setIsBlocking(true);
+            System.out.println("=====================================");                
+            System.out.println(player.getName() + " is blocking!");
+            double playerincreasedef = player.getDEF() * 0.5;
+            System.out.println(player.getName() + " block " + M.getName() + " " + player.getName() +" DEF UP " + playerincreasedef);
+            super.ShowDetails();
     }
+
 }
 class Monster extends character implements characterFunction {
     
-    public Monster() {
-        super.setName("Slime");
-        super.setHP(1000);
+    public Monster(String name , double hp , double def , int atk , int spd) {
+        super.setName(name);
+        super.setHP(hp);
+        super.setDEF(def);
+        super.setATK(atk);
+        super.setSPD(spd);
     }
 
-    public int getHP() { return super.getHP();}
-    public int getDEF() { return super.getDEF();}
+    public double getHP() { return super.getHP();}
+    public double getDEF() { return super.getDEF();}
     public int getATK() { return super.getATK();}
     public int getSPD() { return super.getSPD();}
     public String getName() {return super.getName();}
@@ -143,15 +186,26 @@ class Monster extends character implements characterFunction {
 
     @Override
     public void ATK(Player player , Monster M){
-            int monsterDamage = M.getATK() - player.getDEF();
+            double monsterDamage = M.getATK() - (player.getDEF() + player.getDefBonus());
             if(monsterDamage < 0) monsterDamage = 0;
 
             player.setHP(player.getHP() - monsterDamage);
             System.out.println(M.getName() + " attacks " + player.getName() + " " + monsterDamage + " Damage");
             System.out.println("=====================================");
     }
+
+    public void setIsBlocking(boolean isBlocking) {
+        if(isBlocking){
+            super.setDefBonus(super.getDEF() * 0.5);
+        }
+        else{ super.setDefBonus(0);}
+    }
+    
 }
 
 interface characterFunction {
     void ATK(Player player , Monster M);
+    void ShowDetails();
+    void setIsBlocking(boolean isBlocking); 
+
 }
