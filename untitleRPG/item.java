@@ -86,7 +86,7 @@ class HealPotionBag {
         }
     }
 
-    public  double Useitem(int c , double dfhp){
+    private  double Useitem(int c , double dfhp){
             HealPotion slt = this.getBag().get(c-1);
             this.getBag().remove(slt);
             System.out.println();

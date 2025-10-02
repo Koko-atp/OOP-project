@@ -8,7 +8,6 @@ public class maingame {
         floor_mon FM = new floor_mon();
         System.out.println("=====================================");
         System.out.print("Enter Player Name: ");
-        // System.out.println(" ");
         
         String playerName = kbd.nextLine();
 
@@ -20,7 +19,6 @@ public class maingame {
         System.out.println("2. Axe");
         System.out.println("3. Knife");
         System.out.print("Choose Your Weapon : ");
-        // System.out.println(" ");
 
 
 
@@ -34,7 +32,7 @@ public class maingame {
         System.out.println("2. Mid");
         System.out.println("3. High");
         System.out.print("Choose Your Armor : ");
-        // System.out.println(" ");
+        
         String playerArmor = kbd.nextLine();
         P.equipArmor(playerArmor);
         System.out.println("=====================================");
@@ -87,7 +85,7 @@ public class maingame {
             
             M.ATK(player, M);
 
-            if(player.getIsBlocking() == true){
+            if(player.getIsBlocking()){
                 player.setIsBlocking(false);
             }
             
